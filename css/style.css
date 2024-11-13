@@ -1,0 +1,215 @@
+body {
+  font-family: 'MedievalSharp', cursive;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  background-color: #1a1a2e;
+  background-image: url('/img/wald1.webp');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  color: #e0e0e0;
+  position: relative;
+  min-height: 100vh;
+}
+
+body::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: inherit;
+  background-size: inherit;
+  background-repeat: inherit;
+  background-attachment: inherit;
+  filter: blur(5px);
+  z-index: -1;
+}
+
+#logo-container {
+  margin: 10px;
+  z-index: 1;
+  filter: brightness(0.5);
+}
+
+#logo-container img {
+  width: 300px;
+  height: auto;
+}
+
+#playerSetup, #battleLog {
+  background-color: rgba(20, 20, 20, 0.7);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  text-align: center;
+  max-width: 800px;
+  z-index: 1;
+}
+
+.players {
+  display: flex;
+  justify-content: space-around;
+  gap: 20px;
+}
+
+.player {
+  background-color: #3a3a4e;
+  padding: 15px;
+  border-radius: 8px;
+}
+
+label {
+  color: #a1eafb;
+  display: block;
+  margin-top: 10px;
+}
+
+select, input[type="text"] {
+  width: 80%;
+  padding: 8px;
+  margin-top: 5px;
+  border: none;
+  border-radius: 4px;
+  background-color: #2e2e2e;
+  color: #e0e0e0;
+  font-weight: bold;
+  text-align: center;
+}
+
+.battle-log-entry {
+  background-color: #2c2c3c;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 8px;
+  margin-top: 10px;
+  font-size: 0.9em;
+  line-height: 1.4;
+  color: #d1d1e0;
+  display: flex;
+  flex-direction: column;
+}
+
+.player-name {
+  color: #ffc107;
+  font-weight: bold;
+}
+
+.message {
+  color: #4db6ac;
+}
+
+.damage {
+  color: #ef5350;
+  font-weight: bold;
+}
+
+.defense {
+  color: #42a5f5;
+}
+
+.crit {
+  color: #ff4081;
+  font-weight: bold;
+  font-size: 1em;
+}
+
+.ring-effect {
+  color: #66bb6a;
+}
+
+.player-divider {
+  border: none;
+  height: 1px;
+  background-color: #555;
+  margin: 12px 0;
+}
+
+button {
+  background-color: #3a3a5e;
+  color: #ffffff;
+  font-weight: bold;
+  padding: 10px 20px;
+  margin: 5px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+button:hover {
+  background-color: #4b4b6d;
+}
+
+button:active {
+  transform: translateY(0);
+  background-color: #2c2c4a;
+}
+
+#randomizeButton {
+  margin-right: 10px;
+  background-color: #00497a;
+}
+
+#randomizeButton:hover {
+  background-color: #012a46;
+}
+
+#startButton {
+  background-color: #004941;
+  margin-top: 20px;
+}
+
+#startButton:hover {
+  background-color: #126460;
+}
+
+#returnButton {
+  background-color: #3a3a5e;
+  color: #ffffff;
+  font-weight: bold;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+  margin-bottom: 20px;
+  margin-top: 10px;
+}
+
+#returnButton:hover {
+  background-color: #4b4b6d;
+  transform: translateY(-2px);
+}
+
+#returnButton:active {
+  transform: translateY(0);
+  background-color: #2c2c4a;
+}
+
+#playerSetup, #battleLog, .player, .battle-log-entry {
+  background-color: rgba(20, 20, 20, 0.7);
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.5);
+  z-index: 1;
+}
+
+input[type="text"] {
+  max-width: 200px;
+}
+
+button {
+  text-align: center;
+  display: inline-block;
+}
+
+select:focus, input[type="text"]:focus {
+  outline: none;
+  background-color: #3a3a3a;
+  box-shadow: 0 0 5px rgba(255, 215, 0, 0.8);
+}
