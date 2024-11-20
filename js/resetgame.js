@@ -3,7 +3,6 @@ export class RPGGame {
     this.playerSetup = document.getElementById('playerSetup');
     this.battleLog = document.getElementById('battleLog');
     this.returnButton = document.getElementById('returnButton');
-    this.body = document.body;
   }
 
   resetGame() {
@@ -11,6 +10,5 @@ export class RPGGame {
     this.battleLog.style.display = 'none';
     this.battleLog.innerHTML = '';
     this.returnButton.style.display = 'none';
-    this.body.classList.remove('blur-background');
   }
 }

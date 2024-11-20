@@ -1,4 +1,4 @@
-import { getRandomMessage } from "./messages.js";
+import { ActionMessages } from "./messages.js";
 
 export class Battle {
   constructor(player1, player2, battleLogElement, returnButton) {
@@ -7,19 +7,19 @@ export class Battle {
     this.battleLogElement = battleLogElement;
     this.returnButton = returnButton;
     this.turn = Math.random() < 0.5 ? player1 : player2;
-    this.usedMessages = [];
+    this.messages = new ActionMessages();
     this.interval = null;
   }
 
   start() {
-    this.battleLogElement.innerHTML += `<p>Der Kampf beginnt!</p>`;
+    this.battleLogElement.innerHTML += `<h2>Der Kampf beginnt!</h2>`;
     this.interval = setInterval(() => {
       this.takeTurn();
     }, 1500);
   }
 
   takeTurn() {
-    const actionMessage = getRandomMessage(this.usedMessages);
+    const actionMessage = this.messages.getRandomMessage();
 
     if (this.turn === this.player1) {
       this.executeTurn(this.player1, this.player2, actionMessage);
