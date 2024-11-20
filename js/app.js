@@ -1,10 +1,10 @@
 import { weapons } from "./weapons.js";
 import { armors } from "./armors.js";
 import { rings } from "./rings.js";
-import { createPlayer } from "./player.js";
+import { Player,Battle } from "./player.js";
 import { startBattle } from "./battle.js";
 import { populateDropdown,getSelectedOption } from "./dropdown.js";
-import {resetGame} from "./resetgame.js";
+import { RPGGame } from "./resetgame.js";
 
 document.addEventListener('DOMContentLoaded', () => {
   const startButton = document.getElementById('startButton');
@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const player1Name = document.getElementById('player1').value || "Spieler 1";
     const player2Name = document.getElementById('player2').value || "Spieler 2";
 
-    const player1 = createPlayer(
+    const player1 = new Player(
       player1Name,
       100,
       getSelectedOption('player1-weapon', weapons),
@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
       getSelectedOption('player1-ring', rings)
     );
 
-    const player2 = createPlayer(
+    const player2 = new Player(
       player2Name,
       100,
       getSelectedOption('player2-weapon', weapons),
@@ -78,7 +78,8 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('player2-ring').value = 'random';
   });
 
+  const game = new RPGGame();
   returnButton.addEventListener('click', () => {
-    resetGame()
+    game.resetGame()
   });
 });

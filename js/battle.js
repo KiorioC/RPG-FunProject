@@ -1,4 +1,4 @@
-import { attack } from "./player.js";
+import { Battle } from "./player.js";
 import { getRandomMessage } from "./messages.js";
 
 export function startBattle(player1, player2, battleLogElement, returnButton) {
@@ -9,7 +9,7 @@ export function startBattle(player1, player2, battleLogElement, returnButton) {
     const actionMessage = getRandomMessage(usedMessages);
 
     if (turn === player1) {
-      const wasCritical = attack(player1, player2);
+      const wasCritical = Battle.attack(player1, player2);
       battleLogElement.innerHTML += `
                 <div class="battle-log-entry">
                     <p><span class="player-name">${player1.name}</span> ${actionMessage} <span class="player-name">${player2.name}</span>!
@@ -32,7 +32,7 @@ export function startBattle(player1, player2, battleLogElement, returnButton) {
       }
       turn = player2;
     } else {
-      const wasCritical = attack(player2, player1);
+      const wasCritical = Battle.attack(player2, player1);
       battleLogElement.innerHTML += `
                 <div class="battle-log-entry">
                     <p><span class="player-name">${player2.name}</span> ${actionMessage} <span class="player-name">${player1.name}</span>!

@@ -1,27 +1,34 @@
+class Armor {
+  constructor(name, defense) {
+    this.name = name;
+    this.defense = Math.min(Math.max(defense, 1), 30);
+  }
+}
+
 export const armors = [
-  { name: "Programmierer Brille", defense: 15 },
-  { name: "Feurige Tunika", defense: 20 },
-  { name: "Titanium-Schutzanzug", defense: 30 },
-  { name: "Mächtige Badehose", defense: 5 },
-  { name: "Mystischer Umhang der Schüchternheit", defense: 10 },
-  { name: "Ritterrüstung aus Pappe", defense: 8 },
-  { name: "Plüschmantel des Kuschelns", defense: 12 },
-  { name: "Wolkenanzug", defense: 25 },
-  { name: "Hühnerhaut-Hemd", defense: 7 },
-  { name: "Alte Zeitung als Rüstung", defense: 3 },
-  { name: "Glitzerndes Disco-Outfit", defense: 18 },
-  { name: "Superhelden-Cape", defense: 15 },
-  { name: "Unsichtbare Schutzweste", defense: 14 },
-  { name: "Dosenpanzerung", defense: 9 },
-  { name: "Anzug des Bänkers", defense: 11 },
-  { name: "Schildkrötenpanzer", defense: 22 },
-  { name: "Kettenhemd der Drachen", defense: 27 },
-  { name: "Zauberhafte Robe", defense: 20 },
-  { name: "Schleier des Schattens", defense: 13 },
-  { name: "Steinerner Brustpanzer", defense: 17 },
-  { name: "Federleichte Schutzjacke", defense: 10 },
-  { name: "Rüstung des Sturms", defense: 24 },
-  { name: "Lederweste des Waldläufers", defense: 12 },
-  { name: "Golem-Hülle", defense: 28 },
-  { name: "Flammenfeste Schutzkleidung", defense: 19 }
+  new Armor("Programmierer Brille", 15),
+  new Armor("Feurige Tunika", 20),
+  new Armor("Titanium-Schutzanzug", 30),
+  new Armor("Mächtige Badehose", 5),
+  new Armor("Mystischer Umhang der Schüchternheit", 10),
+  new Armor("Ritterrüstung aus Pappe", 8),
+  new Armor("Plüschmantel des Kuschelns", 12),
+  new Armor("Wolkenanzug", 25),
+  new Armor("Hühnerhaut-Hemd", 7),
+  new Armor("Alte Zeitung als Rüstung", 3),
+  new Armor("Glitzerndes Disco-Outfit", 18),
+  new Armor("Superhelden-Cape", 15),
+  new Armor("Unsichtbare Schutzweste", 14),
+  new Armor("Dosenpanzerung", 9),
+  new Armor("Anzug des Bänkers", 11),
+  new Armor("Schildkrötenpanzer", 22),
+  new Armor("Kettenhemd der Drachen", 27),
+  new Armor("Zauberhafte Robe", 20),
+  new Armor("Schleier des Schattens", 13),
+  new Armor("Steinerner Brustpanzer", 17),
+  new Armor("Federleichte Schutzjacke", 10),
+  new Armor("Rüstung des Sturms", 24),
+  new Armor("Lederweste des Waldläufers", 12),
+  new Armor("Golem-Hülle", 28),
+  new Armor("Flammenfeste Schutzkleidung", 19)
 ];
