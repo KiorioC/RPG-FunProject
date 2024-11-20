@@ -77,7 +77,7 @@ class GameApp {
   displayBattleIntro(player1, player2) {
     const formatRingDescription = (ring) => {
       let description = '';
-      if (ring.effect.attack) description += `Erhöht den Angriff um ${ring.effect.attack} Punkte`;
+      if (ring.effect.attack) description += `Angriff um ${ring.effect.attack} Punkte`;
       if (ring.effect.defense) description += `Verteidigung um ${ring.effect.defense}%`;
       if (ring.effect.health) description += `Gesundheit um ${ring.effect.health} HP`;
       if (ring.effect.critChance) description += `Kritische Trefferchance um ${ring.effect.critChance}%`;
