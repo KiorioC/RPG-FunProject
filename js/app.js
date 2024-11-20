@@ -1,28 +1,47 @@
+
 import { weapons } from "./weapons.js";
 import { armors } from "./armors.js";
 import { rings } from "./rings.js";
-import { Player,Battle } from "./player.js";
-import { startBattle } from "./battle.js";
-import { populateDropdown,getSelectedOption } from "./dropdown.js";
+import { Player } from "./player.js";
+import { Battle } from "./battle.js";
+import { populateDropdown, getSelectedOption } from "./dropdown.js";
 import { RPGGame } from "./resetgame.js";
 
-document.addEventListener('DOMContentLoaded', () => {
-  const startButton = document.getElementById('startButton');
-  const randomizeButton = document.getElementById('randomizeButton');
-  const battleLog = document.getElementById('battleLog');
-  const returnButton = document.getElementById('returnButton');
+class GameApp {
+  constructor() {
+    this.startButton = document.getElementById('startButton');
+    this.randomizeButton = document.getElementById('randomizeButton');
+    this.battleLog = document.getElementById('battleLog');
+    this.returnButton = document.getElementById('returnButton');
+    this.init();
+  }
 
-  populateDropdown('player1-weapon', weapons);
-  populateDropdown('player1-armor', armors);
-  populateDropdown('player1-ring', rings);
-  populateDropdown('player2-weapon', weapons);
-  populateDropdown('player2-armor', armors);
-  populateDropdown('player2-ring', rings);
+  init() {
+    document.addEventListener('DOMContentLoaded', () => {
+      this.setupUI();
+      this.addEventListeners();
+    });
+  }
 
-  battleLog.style.display = 'none';
-  returnButton.style.display = 'none';
+  setupUI() {
+    populateDropdown('player1-weapon', weapons);
+    populateDropdown('player1-armor', armors);
+    populateDropdown('player1-ring', rings);
+    populateDropdown('player2-weapon', weapons);
+    populateDropdown('player2-armor', armors);
+    populateDropdown('player2-ring', rings);
 
-  startButton.addEventListener('click', () => {
+    this.battleLog.style.display = 'none';
+    this.returnButton.style.display = 'none';
+  }
+
+  addEventListeners() {
+    this.startButton.addEventListener('click', () => this.startBattle());
+    this.randomizeButton.addEventListener('click', () => this.randomizeSelection());
+    this.returnButton.addEventListener('click', () => this.resetGame());
+  }
+
+  startBattle() {
     const player1Name = document.getElementById('player1').value || "Spieler 1";
     const player2Name = document.getElementById('player2').value || "Spieler 2";
 
@@ -43,10 +62,19 @@ document.addEventListener('DOMContentLoaded', () => {
     );
 
     document.getElementById('playerSetup').style.display = 'none';
-    battleLog.style.display = 'block';
-    returnButton.style.display = 'none';
+    this.battleLog.style.display = 'block';
+    this.returnButton.style.display = 'none';
     document.body.classList.remove('blur-background');
 
+    this.displayBattleIntro(player1, player2);
+
+    setTimeout(() => {
+      const battle = new Battle(player1, player2, this.battleLog, this.returnButton);
+      battle.start();
+    }, 2000);
+  }
+
+  displayBattleIntro(player1, player2) {
     const formatRingDescription = (ring) => {
       let description = '';
       if (ring.effect.attack) description += `Erhöht den Angriff um ${ring.effect.attack} Punkte`;
@@ -56,30 +84,28 @@ document.addEventListener('DOMContentLoaded', () => {
       return description;
     };
 
-    battleLog.innerHTML = `
-  <div class="battle-log-entry">
-    <p><span class="player-name">${player1.name}</span> betritt den Kampf mit der Waffe <span class="message">${player1.weapon.name}</span> (<span class="damage">Schaden: ${player1.weapon.damage}</span>), der Rüstung <span class="message">${player1.armor.name}</span> (<span class="defense">Verteidigung: ${player1.armor.defense}%</span>), und dem Ring <span class="message">${player1.ring.name}</span> (<span class="ring-effect">${formatRingDescription(player1.ring)}</span>). <span class="crit">Kritische Trefferchance: ${player1.criticalChance}%</span>.</p>
-    <hr class="player-divider">
-    <p><span class="player-name">${player2.name}</span> betritt den Kampf mit der Waffe <span class="message">${player2.weapon.name}</span> (<span class="damage">Schaden: ${player2.weapon.damage}</span>), der Rüstung <span class="message">${player2.armor.name}</span> (<span class="defense">Verteidigung: ${player2.armor.defense}%</span>), und dem Ring <span class="message">${player2.ring.name}</span> (<span class="ring-effect">${formatRingDescription(player2.ring)}</span>). <span class="crit">Kritische Trefferchance: ${player2.criticalChance}%</span>.</p>
-  </div>
-`;
+    this.battleLog.innerHTML = `
+      <div class="battle-log-entry">
+        <p><span class="player-name">${player1.name}</span> betritt den Kampf mit der Waffe <span class="message">${player1.weapon.name}</span> (<span class="damage">Schaden: ${player1.weapon.damage}</span>), der Rüstung <span class="message">${player1.armor.name}</span> (<span class="defense">Verteidigung: ${player1.armor.defense}%</span>), und dem Ring <span class="message">${player1.ring.name}</span> (<span class="ring-effect">${formatRingDescription(player1.ring)}</span>). <span class="crit">Kritische Trefferchance: ${player1.criticalChance}%</span>.</p>
+        <hr class="player-divider">
+        <p><span class="player-name">${player2.name}</span> betritt den Kampf mit der Waffe <span class="message">${player2.weapon.name}</span> (<span class="damage">Schaden: ${player2.weapon.damage}</span>), der Rüstung <span class="message">${player2.armor.name}</span> (<span class="defense">Verteidigung: ${player2.armor.defense}%</span>), und dem Ring <span class="message">${player2.ring.name}</span> (<span class="ring-effect">${formatRingDescription(player2.ring)}</span>). <span class="crit">Kritische Trefferchance: ${player2.criticalChance}%</span>.</p>
+      </div>
+    `;
+  }
 
-    setTimeout(() => {
-      startBattle(player1, player2, battleLog, returnButton);
-    }, 2000);
-  });
-
-  randomizeButton.addEventListener('click', () => {
+  randomizeSelection() {
     document.getElementById('player1-weapon').value = 'random';
     document.getElementById('player1-armor').value = 'random';
     document.getElementById('player1-ring').value = 'random';
     document.getElementById('player2-weapon').value = 'random';
     document.getElementById('player2-armor').value = 'random';
     document.getElementById('player2-ring').value = 'random';
-  });
+  }
 
-  const game = new RPGGame();
-  returnButton.addEventListener('click', () => {
-    game.resetGame()
-  });
-});
+  resetGame() {
+    const game = new RPGGame();
+    game.resetGame();
+  }
+}
+
+new GameApp();

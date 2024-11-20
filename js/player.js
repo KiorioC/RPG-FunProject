@@ -18,22 +18,20 @@ class Player {
   isAlive() {
     return this.health > 0;
   }
-}
 
-class Battle {
-  static attack(attacker, opponent) {
-    const baseDamage = attacker.weapon.damage;
-    const isCritical = Math.random() * 100 < attacker.criticalChance;
+  attack(defender) {
+    const baseDamage = this.weapon.damage;
+    const isCritical = Math.random() * 100 < this.criticalChance;
     const finalDamage = isCritical ? baseDamage * 1.5 : baseDamage;
-    const damageReduced = finalDamage * (1 - (opponent.armor.defense / 100));
+    const damageReduced = finalDamage * (1 - (defender.armor.defense / 100));
 
-    opponent.health -= damageReduced;
-    opponent.health = Math.max(opponent.health, 0);
+    defender.health -= damageReduced;
+    defender.health = Math.max(defender.health, 0);
 
-    console.log(`${attacker.name} greift ${opponent.name} an und verursacht ${damageReduced.toFixed(2)} Schaden${isCritical ? ' (Kritisch!)' : ''}.`);
+    console.log(`${this.name} greift ${defender.name} an und verursacht ${damageReduced.toFixed(2)} Schaden${isCritical ? ' (Kritisch!)' : ''}.`);
 
     return isCritical;
   }
 }
 
-export { Player, Battle };
+export { Player };

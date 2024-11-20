@@ -1,59 +1,64 @@
-import { Battle } from "./player.js";
 import { getRandomMessage } from "./messages.js";
 
-export function startBattle(player1, player2, battleLogElement, returnButton) {
-  let turn = Math.random() < 0.5 ? player1 : player2;
-  let usedMessages = [];
+export class Battle {
+  constructor(player1, player2, battleLogElement, returnButton) {
+    this.player1 = player1;
+    this.player2 = player2;
+    this.battleLogElement = battleLogElement;
+    this.returnButton = returnButton;
+    this.turn = Math.random() < 0.5 ? player1 : player2;
+    this.usedMessages = [];
+    this.interval = null;
+  }
 
-  const interval = setInterval(() => {
-    const actionMessage = getRandomMessage(usedMessages);
+  start() {
+    this.battleLogElement.innerHTML += `<p>Der Kampf beginnt!</p>`;
+    this.interval = setInterval(() => {
+      this.takeTurn();
+    }, 1500);
+  }
 
-    if (turn === player1) {
-      const wasCritical = Battle.attack(player1, player2);
-      battleLogElement.innerHTML += `
-                <div class="battle-log-entry">
-                    <p><span class="player-name">${player1.name}</span> ${actionMessage} <span class="player-name">${player2.name}</span>!
-                    ${wasCritical ? '<span class="critical"> Kritisch!</span>' : ''}
-                    <span class="damage">${player2.health.toFixed(2)} HP übrig</span>.</p>
-                </div>
-            `;
-      if (!player2.isAlive()) {
-        battleLogElement.innerHTML += `
-                    <div class="battle-log-entry">
-                        <p><span class="player-name">${player2.name}</span> wurde besiegt! <span class="player-name">${player1.name}</span> gewinnt!</p>
-                    </div>
-                `;
-        clearInterval(interval);
-        setTimeout(() => {
-          returnButton.classList.add('show');
-          returnButton.style.display = 'block';
-        }, 5000);
+  takeTurn() {
+    const actionMessage = getRandomMessage(this.usedMessages);
+
+    if (this.turn === this.player1) {
+      this.executeTurn(this.player1, this.player2, actionMessage);
+      if (!this.player2.isAlive()) {
+        this.endBattle(this.player1, this.player2);
         return;
       }
-      turn = player2;
+      this.turn = this.player2;
     } else {
-      const wasCritical = Battle.attack(player2, player1);
-      battleLogElement.innerHTML += `
-                <div class="battle-log-entry">
-                    <p><span class="player-name">${player2.name}</span> ${actionMessage} <span class="player-name">${player1.name}</span>!
-                    ${wasCritical ? '<span class="critical"> Kritisch!</span>' : ''}
-                    <span class="damage">${player1.health.toFixed(2)} HP übrig</span>.</p>
-                </div>
-            `;
-      if (!player1.isAlive()) {
-        battleLogElement.innerHTML += `
-                    <div class="battle-log-entry">
-                        <p><span class="player-name">${player1.name}</span> wurde besiegt! <span class="player-name">${player2.name}</span> gewinnt!</p>
-                    </div>
-                `;
-        clearInterval(interval);
-        setTimeout(() => {
-          returnButton.classList.add('show');
-          returnButton.style.display = 'block';
-        }, 5000);
+      this.executeTurn(this.player2, this.player1, actionMessage);
+      if (!this.player1.isAlive()) {
+        this.endBattle(this.player2, this.player1);
         return;
       }
-      turn = player1;
+      this.turn = this.player1;
     }
-  }, 1500);
+  }
+
+  executeTurn(attacker, defender, actionMessage) {
+    const wasCritical = attacker.attack(defender);
+    this.battleLogElement.innerHTML += `
+      <div class="battle-log-entry">
+          <p><span class="player-name">${attacker.name}</span> ${actionMessage} <span class="player-name">${defender.name}</span>!
+          ${wasCritical ? '<span class="critical"> Kritisch!</span>' : ''}
+          <span class="damage">${defender.health.toFixed(2)} HP übrig</span>.</p>
+      </div>
+    `;
+  }
+
+  endBattle(winner, loser) {
+    clearInterval(this.interval);
+    this.battleLogElement.innerHTML += `
+      <div class="battle-log-entry">
+          <p><span class="player-name">${loser.name}</span> wurde besiegt! <span class="player-name">${winner.name}</span> gewinnt!</p>
+      </div>
+    `;
+    setTimeout(() => {
+      this.returnButton.classList.add('show');
+      this.returnButton.style.display = 'block';
+    }, 5000);
+  }
 }
